@@ -7,8 +7,8 @@ compile_pip_requirements(
 )
 
 py_test(
-  name = "test",
-  srcs = ["test.py"],
-  legacy_create_init = False,
-  deps = ["@pypi//mlflow"],
+    name = "test",
+    srcs = ["test.py"],
+    legacy_create_init = False,
+    deps = ["@pypi//mlflow"],
 )

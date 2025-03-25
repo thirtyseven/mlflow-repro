@@ -7,30 +7,29 @@ http_archive(
     url = "https://github.com/bazelbuild/rules_python/releases/download/1.1.0/rules_python-1.1.0.tar.gz",
 )
 
-load("@rules_python//python:repositories.bzl", "py_repositories")
+load("@rules_python//python:repositories.bzl", "py_repositories", "python_register_toolchains")
 
 py_repositories()
-
-load("@rules_python//python:repositories.bzl", "py_repositories", "python_register_toolchains")
 
 py_repositories()
 
 python_register_toolchains(
     name = "python_3_12",
     python_version = "3.12.1",
-    )
-
+)
 
 load("@rules_python//python:pip.bzl", "pip_parse")
 
 # Create a central repo that knows about the dependencies needed from
 # requirements_lock.txt.
 pip_parse(
-   name = "pypi",
-   requirements_lock = "//:requirements_lock.txt",
-   python_interpreter_target = "@python_3_12_host//:python"
+    name = "pypi",
+    python_interpreter_target = "@python_3_12_host//:python",
+    requirements_lock = "//:requirements_lock.txt",
 )
+
 # Load the starlark macro, which will define your dependencies.
 load("@pypi//:requirements.bzl", "install_deps")
+
 # Call it to define repos for your requirements.
 install_deps()
